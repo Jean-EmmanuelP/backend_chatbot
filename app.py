@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from mistralai import Mistral
 from dotenv import load_dotenv
 import os
@@ -7,6 +8,7 @@ import os
 load_dotenv()
 
 app = Flask(__name__)
+CORS(app)
 
 # Get the API key from environment variables
 api_key = os.getenv("MISTRAL_API_KEY")
@@ -34,4 +36,5 @@ def chat():
     return jsonify({'reply': assistant_reply})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    from os import environ
+    app.run(host='0.0.0.0', port=environ.get("PORT", 5000))
